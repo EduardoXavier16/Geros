@@ -13,11 +13,7 @@ import { WorkOrdersModule } from './work-orders/work-orders.module';
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.MYSQLHOST,
-      port: parseInt(process.env.MYSQLPORT || '3306'),
-      username: process.env.MYSQLUSER,
-      password: process.env.MYSQLPASSWORD,
-      database: process.env.MYSQL_DATABASE,
+      url: process.env.MYSQL_URL,
       entities: [User, WorkOrder],
       synchronize: false,
       logging: false,
