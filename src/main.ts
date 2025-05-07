@@ -1,7 +1,5 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import * as compression from 'compression';
-import { rateLimit } from 'express-rate-limit';
 import helmet from 'helmet';
 import { createServer } from 'net';
 import { AppModule } from './app.module';
@@ -55,24 +53,10 @@ async function bootstrap() {
     SwaggerModule.setup('api/docs', app, document);
   }
 
-  // Configurações de segurança e otimização
-  app.use(helmet());
-  // Configurando o Helmet para permitir o Swagger UI
+  // Configurações básicas de segurança
   app.use(
-    helmet.contentSecurityPolicy({
-      directives: {
-        defaultSrc: ["'self'"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
-        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
-        imgSrc: ["'self'", 'data:', 'https:'],
-      },
-    }),
-  );
-  app.use(compression());
-  app.use(
-    rateLimit({
-      windowMs: 15 * 60 * 1000, // 15 minutos
-      max: 100, // limite de 100 requisições por windowMs
+    helmet({
+      contentSecurityPolicy: false,
     }),
   );
 
