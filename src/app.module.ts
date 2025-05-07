@@ -13,18 +13,15 @@ import { WorkOrdersModule } from './work-orders/work-orders.module';
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.mysql.railway.internal || process.env.DB_HOST,
-      port: parseInt(process.env.3306 || process.env.DB_PORT || '3306'),
-      username: process.env.root || process.env.DB_USERNAME,
-      password: process.env.EqilaBPmTLXRoLiFKfZALwfLhRFxfdAV || process.env.DB_PASSWORD,
-      database: process.env.railway || process.env.DB_DATABASE,
+      host: process.env.MYSQLHOST,
+      port: parseInt(process.env.MYSQLPORT || '3306'),
+      username: process.env.MYSQLUSER,
+      password: process.env.MYSQLPASSWORD,
+      database: process.env.MYSQL_DATABASE,
       entities: [User, WorkOrder],
-      synchronize: process.env.NODE_ENV === 'development',
-      logging: process.env.NODE_ENV === 'development',
-      ssl:
-        process.env.NODE_ENV === 'production'
-          ? { rejectUnauthorized: false }
-          : false,
+      synchronize: false,
+      logging: false,
+      ssl: { rejectUnauthorized: false },
     }),
     AuthModule,
     WorkOrdersModule,
