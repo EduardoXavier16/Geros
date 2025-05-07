@@ -16,8 +16,15 @@ import { WorkOrdersModule } from './work-orders/work-orders.module';
       url: process.env.MYSQL_URL,
       entities: [User, WorkOrder],
       synchronize: false,
-      logging: false,
-      ssl: { rejectUnauthorized: false },
+      logging: true,
+      ssl: {
+        rejectUnauthorized: false,
+      },
+      extra: {
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      },
     }),
     AuthModule,
     WorkOrdersModule,
