@@ -2,9 +2,7 @@ import { DataSource } from 'typeorm';
 
 const AppDataSource = new DataSource({
   type: 'mysql', // Tipo de banco de dados (MySQL)
-  host:
-    'mysql://root:EqilaBPmTLXRoLiFKfZALwfLhRFxfdAV@metro.proxy.rlwy.net:32363/railway' ||
-    'mysql.railway.internal', // Host do banco de dados
+  host: process.env.MYSQL_HOST || 'mysql.railway.internal', // Host do banco de dados
   port: parseInt(process.env.MYSQL_PORT || '8080', 10), // Porta do banco de dados
   username: process.env.MYSQL_USER || 'root', // Usuário do banco de dados
   password: process.env.MYSQL_PASSWORD, // Senha do banco de dados
