@@ -21,6 +21,13 @@ export enum EquipmentStatus {
   WORKING = 'working',
 }
 
+export enum Priority {
+  LOW = 'low',
+  MEDIUM = 'medium',
+  HIGH = 'high',
+  URGENT = 'urgent',
+}
+
 @Entity()
 export class WorkOrder {
   @PrimaryGeneratedColumn('uuid')
@@ -37,6 +44,13 @@ export class WorkOrder {
 
   @Column()
   description: string;
+
+  @Column({
+    type: 'enum',
+    enum: ['low', 'medium', 'high', 'urgent'],
+    default: 'medium',
+  })
+  priority: 'low' | 'medium' | 'high' | 'urgent';
 
   @Column()
   requester: string;

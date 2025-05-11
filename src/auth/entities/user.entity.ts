@@ -25,6 +25,9 @@ export class User {
   @Column({ default: false })
   isAdmin: boolean;
 
+  @Column({ nullable: true })
+  phoneNumber: string;
+
   @CreateDateColumn()
   createdAt: Date;
 

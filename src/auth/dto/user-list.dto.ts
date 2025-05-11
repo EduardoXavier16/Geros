@@ -12,4 +12,7 @@ export class UserListDto {
 
   @ApiProperty()
   isAdmin: boolean;
+
+  @ApiProperty()
+  phoneNumber: string;
 }

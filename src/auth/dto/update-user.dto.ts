@@ -22,4 +22,8 @@ export class UpdateUserDto {
   @IsString()
   @MinLength(6)
   currentPassword: string;
+
+  @IsOptional()
+  @IsString()
+  phoneNumber?: string;
 }
