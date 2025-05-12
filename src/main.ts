@@ -36,7 +36,7 @@ async function bootstrap() {
 
   // Configuração de CORS para produção
   app.enableCors({
-    origin: process.env.CORS_ORIGIN,
+    origin: 'http://localhost:5173',
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
     credentials: true,
     optionsSuccessStatus: 204,
