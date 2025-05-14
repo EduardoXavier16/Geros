@@ -1,8 +1,21 @@
+/* eslint-disable prettier/prettier */
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
 import { createServer } from 'net';
 import { AppModule } from './app.module';
+import { json } from 'express';
+import { config } from 'dotenv';
+import { join } from 'path';
+
+config({ path: join(__dirname, '..', '.env') });
+
+console.log('Variáveis carregadas:', {
+  host: process.env.MYSQL_HOST,
+  user: process.env.MYSQL_USER,
+  pass: process.env.MYSQL_PASSWORD,
+  db: process.env.MYSQL_DATABASE,
+});
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise((resolve) => {
@@ -33,6 +46,7 @@ async function bootstrap() {
 
   // Configuração do prefixo global da API
   app.setGlobalPrefix('api');
+  app.use(json({ limit: '10mb' }));
 
   // Configuração de CORS para produção
   app.enableCors({
@@ -45,7 +59,7 @@ async function bootstrap() {
   // Configuração do Swagger (apenas em desenvolvimento)
   if (process.env.NODE_ENV !== 'production') {
     const config = new DocumentBuilder()
-      .setTitle('GEROS API')
+      .setTitle('GEROS')
       .setDescription('Documentação da API do GEROS')
       .setVersion('1.0')
       .build();
@@ -65,9 +79,9 @@ async function bootstrap() {
           imgSrc: ["'self'", 'data:', 'https:'],
         },
       },
-      crossOriginEmbedderPolicy: true,
+      crossOriginEmbedderPolicy: false,
       crossOriginOpenerPolicy: true,
-      crossOriginResourcePolicy: { policy: 'same-site' },
+      crossOriginResourcePolicy: { policy: 'same-origin' },
       dnsPrefetchControl: true,
       frameguard: { action: 'deny' },
       hidePoweredBy: true,
@@ -80,7 +94,7 @@ async function bootstrap() {
   );
 
   const desiredPort = parseInt(process.env.PORT ?? '3000', 10);
-  const port = await findAvailablePort(desiredPort);
+  const port = process.env.PORT ? parseInt(process.env.PORT, 10) : desiredPort;
 
   await app.listen(port);
   console.log(
