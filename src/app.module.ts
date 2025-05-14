@@ -18,7 +18,11 @@ import { WorkOrdersModule } from './work-orders/work-orders.module';
       password: process.env.MYSQLPASSWORD,
       database: process.env.MYSQLDATABASE,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: false,
+      synchronize: process.env.NODE_ENV !== 'production',
+      extra: {
+        // Esta é a parte que diz ao TypeORM para usar o driver mysql2
+        driver: require('mysql2'),
+      },
     }),
     AuthModule,
     WorkOrdersModule,
