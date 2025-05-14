@@ -12,17 +12,13 @@ import { WorkOrdersModule } from './work-orders/work-orders.module';
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.MYSQLHOST,
-      port: parseInt(process.env.MYSQLPORT || '3306'),
-      username: process.env.MYSQLUSER,
-      password: process.env.MYSQLPASSWORD,
-      database: process.env.MYSQLDATABASE,
+      host: process.env.MYSQL_HOST,
+      port: parseInt(process.env.MYSQL_PORT || '3306'),
+      username: process.env.MYSQL_USER,
+      password: process.env.MYSQL_PASSWORD,
+      database: process.env.MYSQL_DATABASE,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: process.env.NODE_ENV !== 'production',
-      extra: {
-        // Esta é a parte que diz ao TypeORM para usar o driver mysql2
-        driver: require('mysql2'),
-      },
     }),
     AuthModule,
     WorkOrdersModule,
