@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Body,
   Controller,
@@ -7,6 +8,10 @@ import {
   Post,
   Request,
   UseGuards,
+  Delete,
+  Param,
+  HttpStatus,
+  NotFoundException,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import {
@@ -78,5 +83,16 @@ export class AuthController {
   })
   async findAllUsers() {
     return this.authService.findAllUsers();
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.OK)
+  async deleteUser(@Param('id') id: string): Promise<{ message: string }> {
+    try {
+      return await this.authService.deleteUser(id);
+    } catch (error) {
+      // Tratamento opcional de erro mais específico
+      throw new NotFoundException('Usuário não encontrado');
+    }
   }
 }

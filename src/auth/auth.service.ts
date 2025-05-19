@@ -1,7 +1,10 @@
+/* eslint-disable prettier/prettier */
 import {
   ConflictException,
   Injectable,
   UnauthorizedException,
+  ForbiddenException,
+  NotFoundException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -302,5 +305,23 @@ export class AuthService {
       }
       throw new Error(error.message || 'Erro interno ao atualizar usuário');
     }
+  }
+
+  async deleteUser(id: string): Promise<{ message: string }> {
+    const user = await this.userRepository.findOneBy({ id });
+
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado');
+    }
+
+    if (user.isAdmin) {
+      throw new ForbiddenException(
+        'Não é possível excluir um usuário com role de admin',
+      );
+    }
+
+    await this.userRepository.delete(id);
+
+    return { message: 'Usuário excluído com sucesso' };
   }
 }
